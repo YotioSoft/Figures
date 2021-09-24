@@ -1,0 +1,138 @@
+#pack "title.png"
+#pack "button.png"
+
+celload"title.png",1
+celload"button.png",2
+
+title"Figures"
+randomize
+*start
+	cls
+	mmload"bgm.mp3",,1
+	mmplay
+	width 640,480
+
+	repeat
+	redraw 0
+	
+	if r>255:r=0
+	r=r+1
+	if g>255:g=0
+	g=g+5
+	if b>255:b=0
+	b=b+10
+	
+	color r,g,b
+	boxf
+	
+	pos 210,50:gcopy 1,0,0,220,150//ロゴ
+	color:pos 275,350:mes"Click here!"
+	pos 500,460:mes"(C)YotioSoft 2015
+	
+	onclick*menu//クリックで*menuへ
+	
+	await 100
+	redraw 1
+	loop
+	
+*menu
+	onclick 0
+	redraw 0
+	color r,g,b:boxf
+	
+	color 255,255,255:pos 230,50:mes"レベルを選んでください"
+	objimage 2:objsize 240,30
+	pos 200,70:button"サルでも分かる（0～5）",*saru
+	pos 200,100:button"入門（0～10）",*nyumon
+	pos 200,130:button"基礎（0～100）",*kiso
+	pos 200,160:button"初級（0～500）",*shokyu
+	pos 200,190:button"中級（0～1000）",*chukyu
+	pos 200,220:button"準上級（0～3000）",*jun_jokyu
+	pos 200,250:button"上級（0～5000）",*jokyu
+	pos 200,280:button"超上級（0～8000）",*cho_jokyu
+	pos 200,310:button"ウルトラ級（0～10000）",*ultra
+	pos 200,340:button"達人級（0～15000）",*tatujin
+	pos 200,370:button"激辛カレー級（0～20000）",*curry
+	pos 200,400:button"超無限究極ミラクルレジェンド級（0～32768）",*kyukyoku
+	
+	objsize 100,30
+	pos 540,450:button"このゲームについて",*info
+	redraw 1
+	stop
+
+*saru
+	suji=rnd(5)
+	goto*main
+	stop
+*nyumon
+	suji=rnd(10)
+	goto*main
+	stop
+*kiso
+	suji=rnd(100)
+	goto*main
+	stop
+*shokyu
+	suji=rnd(500)
+	goto*main
+	stop
+*chukyu
+	suji=rnd(1000)
+	goto*main
+	stop
+*jun_jokyu
+	suji=rnd(3000)
+	goto*main
+	stop
+*jokyu
+	suji=rnd(5000)
+	goto*main
+	stop
+*cho_jokyu
+	suji=rnd(8000)
+	goto*main
+	stop
+*ultra
+	suji=rnd(10000)
+	goto*main
+	stop
+*tatujin
+	suji=rnd(15000)
+	goto*main
+	stop
+*curry
+	suji=rnd(20000)
+	goto*main
+	stop
+*kyukyoku
+	suji=rnd(32768)
+	goto*main
+	stop
+	
+*main
+	clrobj
+	redraw 0
+	color r,g,b:boxf
+	objsize 300,30
+	pos 170,100:input inputsuji
+	button"OK",*kakunin
+	
+	objsize 100,30
+	pos 540,450:button"やめちゃう？",*start
+	
+	redraw 1
+	stop
+*kakunin
+	if inputsuji=suji:goto*clear :else:goto*failure
+*clear
+	dialog"おめでとう！世界の平和は守られた",,"CLEAR!"
+	goto*start
+*failure
+	if inputsuji>suji:message="大きいよ！"
+	if inputsuji<suji:message="小さいよ！"
+	dialog"パニッパニッパニッパニパニパニック！！！！！\nOKデ　ヤリナオセマス（スウジハ　カワリマセン）",1,"失敗..."+message+""
+	goto*main
+	stop
+
+*info
+	dialog"Figuresは、普通の数字当てゲームです。\n全12級に分かれていて、その級ごとに難易度も変わります。\n\n製作　YotioSoft\n2015年4月10日",,"このゲームについて"
